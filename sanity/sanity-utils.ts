@@ -16,6 +16,13 @@ const getPage = async (page: string) => {
   return content;
 };
 
+const fetchLanguages = async () => {
+  const languages = await client.fetch(`*[_type == "language"]`);
+  return (languages || []).map((lang: { name: string; code: string; }) => ({ title: lang.name, value: lang.code }));
+};
+
+
 export {
+  fetchLanguages,
   getPage,
 };

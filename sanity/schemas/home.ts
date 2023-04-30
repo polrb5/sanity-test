@@ -1,33 +1,28 @@
-const home = {
+import { defineField, defineType } from 'sanity'
+import { language } from './fields'
+
+export default defineType({
   name: 'home',
   title: 'Home',
   type: 'document',
   fields: [
-    {
-      name: 'name',
-      title: 'Name',
+    defineField({
       type: 'string',
+      name: 'title',
+      title: 'Title',
+      readOnly: true,
+      initialValue: 'Home',
+    }),
+    defineField(language),
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      language: 'language',
     },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: { source: 'name' }
+    prepare(selection) {
+      const { language } = selection
+      return { ...selection, subtitle: language }
     },
-    {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [
-        {
-          name: 'alt',
-          title: 'Alt',
-          type: 'string',
-        }
-      ]
-    }
-  ]
-}
-
-export default home;
+  },
+})
